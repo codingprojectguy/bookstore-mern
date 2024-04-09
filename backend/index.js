@@ -12,6 +12,7 @@ app.get("/", (req, res) => {
 });
 
 //Route for save a new book
+
 app.post("/books", async (req, res) => {
   try {
     if (!req.body.title || !req.body.author || !req.body.publishYear) {
@@ -29,6 +30,19 @@ app.post("/books", async (req, res) => {
     return res.status(201).send(book);
   } catch (error) {
     console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+});
+
+// Route for get all books form database
+
+app.get("/books", async (req, res) => {
+  try {
+    const books = await Book.find({});
+
+    return res.status(200).json(books);
+  } catch (error) {
+    console.log(error);
     res.status(500).send({ message: error.message });
   }
 });
